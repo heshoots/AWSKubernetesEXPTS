@@ -1,0 +1,31 @@
+keyspace: stress
+
+keyspace_definition: |
+  CREATE KEYSPACE stress WITH REPLICATION = { 'class': 'SimpleStrategy', 'replication_factor': '2' }
+
+table: sensortest
+table_definition: |
+  CREATE TABLE sensortest (
+    stationref text,
+    timestamp timestamp,
+    value decimal,
+    PRIMARY KEY(stationref, timestamp))
+
+columnspec:
+  - name: stationref
+    size: gaussian(4 ... 10)
+    population: uniform(1 ... 1000)
+  - name: timestamp
+    size: uniform(20 ... 70)
+  - name: value
+    size: gaussian(0 ... 50)
+
+insert:
+  partitions: fixed(1)
+  select: fixed(1)/1000
+  batchtype: UNLOGGED
+
+queries:
+  readl:
+    cql: select * from sensortest where stationref = ?
+    fields: samerow

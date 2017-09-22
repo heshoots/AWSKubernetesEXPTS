@@ -1,0 +1,12 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: cassandra-test
+  labels:
+    app: cassandra-cassandra
+spec:
+  containers:
+  - name: test
+    ports:
+    - containerPort: 9042
+    image: quorauk/cassandra-stress:latest
