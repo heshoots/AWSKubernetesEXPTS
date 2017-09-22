@@ -20,7 +20,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  # storageClass: "-"
+  ## storageClass: "generic"
   accessMode: ReadWriteOnce
   size: 10Gi
 
@@ -34,8 +34,8 @@ resources:
     memory: 2Gi
     cpu: 1
   limits:
-    memory: 2Gi
-    cpu: 1
+    memory: 4Gi
+    cpu: 2
 
 ## Change cassandra configuration paramaters below:
 ## ref: http://docs.datastax.com/en/cassandra/3.0/cassandra/configuration/configCassandra_yaml.html
@@ -50,8 +50,8 @@ config:
   dc_name: DC1
   rack_name: RAC1
   endpoint_snitch: SimpleSnitch
-  max_heap_size: 1024M
-  heap_new_size: 256M
+  max_heap_size: 2048M
+  heap_new_size: 512M
   ports:
     cql: 9042
     thrift: 9160
