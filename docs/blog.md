@@ -67,10 +67,58 @@ Clean up
 
 Deleting the cluster is as simple as kops delete cluster ${name}.
 
+---
+
+TESTING SCHEMA
+
+If you want to find out the performance of the cluster for your data needs, I have created a docker image for that,
+in deploy/cassandra-stress you will find a basic file (you may need to edit and reupload to dockerhub to add your own text editor)
+
+delete your cassandra cluster with
+
+helm delete --purge cassandra
+
+start up the testcass instance
+
+kubectl create -f cassandra-test.yaml --namespace=cassandra
+
+install the cassandra cluster again as before, now when done, attach to the cassandra-test pod with
+
+kubectl exec -it cassandra-test --namespace=cassandra -- bash
+
+from here you can run cassandra-stress commands on your cluster
+
+try    cassandra-stress write -node <cassandra-cassandra-0 ip>
+
+to test your own schema edit stress.yaml and run with
+
+cassandra-stress user profile=stress.yaml ops\(insert=1\) n=1000000 -rate threads=32
+
+---
 
 TO ADD
 
 scaling cluster up and down
-decommisioning nodes?
-testing cluster
+
+To add nodes to the cluster use
+
+kops edit ig nodes --name=${NAME}
+and change
+
+minnodes=NUM
+maxnodes=NUM
+
+then run kops cluster upgrade 
+kops cluster rolling-update
+
+and wait for your cluster to come up with
+
+kops validate cluster
+
+when done, run 
+
+helm 
+
+decommisioning nodes
+
 
