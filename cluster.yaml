@@ -1,0 +1,87 @@
+apiVersion: kops/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: 2017-09-26T06:55:20Z
+  name: epicass.k8s.local
+spec:
+  api:
+    loadBalancer:
+      type: Public
+  authorization:
+    alwaysAllow: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://whisky-cass-state-store/epicass.k8s.local
+  etcdClusters:
+  - etcdMembers:
+    - instanceGroup: master-eu-west-1b
+      name: b
+    name: main
+  - etcdMembers:
+    - instanceGroup: master-eu-west-1b
+      name: b
+    name: events
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+  kubernetesVersion: 1.7.2
+  masterPublicName: api.epicass.k8s.local
+  networkCIDR: 172.20.0.0/16
+  networking:
+    kubenet: {}
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - cidr: 172.20.32.0/19
+    name: eu-west-1b
+    type: Public
+    zone: eu-west-1b
+  topology:
+    dns:
+      type: Public
+    masters: public
+    nodes: public
+
+---
+
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: 2017-09-26T06:55:20Z
+  labels:
+    kops.k8s.io/cluster: epicass.k8s.local
+  name: master-eu-west-1b
+spec:
+  image: kope.io/k8s-1.7-debian-jessie-amd64-hvm-ebs-2017-07-28
+  machineType: m3.medium
+  maxSize: 1
+  minSize: 1
+  role: Master
+  subnets:
+  - eu-west-1b
+
+---
+
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: 2017-09-26T06:55:21Z
+  labels:
+    kops.k8s.io/cluster: epicass.k8s.local
+  name: nodes
+spec:
+  image: kope.io/k8s-1.7-debian-jessie-amd64-hvm-ebs-2017-07-28
+  machineType: i3.large
+  maxSize: 1
+  minSize: 1
+  hooks:
+  - name: mount-ssd
+    manifest: |
+      [Mount]
+      What=/dev/nvme0n1
+      Where=/cassandra
+      Type=ext4
+      Options=defaults
+  role: Node
+  subnets:
+  - eu-west-1b

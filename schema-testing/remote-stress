@@ -1,1 +1,1 @@
-kubectl exec -it cassandra-test --namespace=cassandra cassandra-stress -- $@
+kubectl exec -it cassandra-test cassandra-stress -- $@

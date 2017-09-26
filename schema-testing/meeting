@@ -1,9 +1,0 @@
-friday:
-
-made some more tools for running stress tests on a cluster
-wrote a bunch of yaml files to simulate some expected queries
-wrote documentation about how to set up/scale cluster
-
-today:
-
-run those tests on different cluster sizes to figure out expected performance of the api

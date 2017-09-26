@@ -1,1 +1,1 @@
-kubectl cp ./$1 cassandra/cassandra-test:/home/$1
+kubectl cp ./$1 cassandra-test:/home/$1
