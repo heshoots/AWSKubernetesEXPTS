@@ -1,0 +1,38 @@
+keyspace: stress
+
+keyspace_definition: |
+  CREATE KEYSPACE stress WITH REPLICATION = { 'class': 'SimpleStrategy', 'replication_factor': '3' }
+
+table: latest
+table_definition: |
+  CREATE TABLE latest (
+    stationref text,
+    date text,
+    timestamp timestamp,
+    value decimal,
+    PRIMARY KEY ((date), timestamp, stationref))
+    WITH CLUSTERING ORDER BY (timestamp desc, stationref asc)
+
+columnspec:
+  - name: stationref
+    size: gaussian(4 .. 7)
+    population: uniform(5 .. 10)
+  - name: date
+    size: uniform(10 .. 14)
+    population: uniform(1 .. 4000)
+  - name: timestamp
+    size: gaussian(5 .. 9)
+    population: uniform(1000000 .. 1000000000000)
+  - name: value
+    size: gaussian(5 .. 10)
+    population: uniform(10 .. 100)
+
+insert:
+  partitions: fixed(100)
+  select: uniform(100 .. 1000)/10000
+  batchtype: LOGGED
+
+queries:
+  readl:
+    cql: select stationref, value from latest where date=? limit 3000
+    fields: samerow
