@@ -71,17 +71,9 @@ metadata:
   name: nodes
 spec:
   image: kope.io/k8s-1.7-debian-jessie-amd64-hvm-ebs-2017-07-28
-  machineType: i3.large
+  machineType: m4.large
   maxSize: 1
   minSize: 1
-  hooks:
-  - name: mount-ssd
-    manifest: |
-      [Mount]
-      What=/dev/nvme0n1
-      Where=/cassandra
-      Type=ext4
-      Options=defaults
   role: Node
   subnets:
   - eu-west-1b

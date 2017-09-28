@@ -68,8 +68,8 @@ spec:
           containerPort: {{ default 9160 .Values.config.ports.thrift }}
         volumeMounts:
         - name: data
-          mountPath: /var/lib/cassandra
+          mountPath: /var/lib/cassandra/
       volumes:
       - name: data
         hostPath:
-          path: /cassandra
+          path: /mnt/drive
