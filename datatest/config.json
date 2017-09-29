@@ -1,8 +1,8 @@
 {
-  "replication": "CREATE KEYSPACE dev with REPLICATION={'class': 'SimpleStrategy', 'replication_factor': 1}",
-  "rows": "902280",
-  "threads": "16",
-  "stations": "64",
-  "hostname": "100.96.1.3"
+  "replication": "CREATE KEYSPACE dev with REPLICATION={'class': 'SimpleStrategy', 'replication_factor': 2}",
+  "rows": "910000",
+  "threads": "32",
+  "stations": "32",
+  "hostnames": ["100.96.1.4", "100.96.2.4"]
 }
 

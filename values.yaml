@@ -50,8 +50,8 @@ config:
   dc_name: DC1
   rack_name: RAC1
   endpoint_snitch: SimpleSnitch
-  max_heap_size: 2048M
-  heap_new_size: 512M
+  max_heap_size: 1024M
+  heap_new_size: 256M
   ports:
     cql: 9042
     thrift: 9160
